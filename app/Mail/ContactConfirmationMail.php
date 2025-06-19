@@ -14,11 +14,6 @@ class ContactConfirmationMail extends Mailable
 
     public $contactData; 
 
-    /**
-     * Tạo một phiên bản tin nhắn mới.
-     *
-     * @param array $contactData Dữ liệu từ form liên hệ
-     */
     public function __construct(array $contactData)
     {
         $this->contactData = $contactData;
@@ -30,8 +25,7 @@ class ContactConfirmationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Xác nhận thông tin liên hệ của bạn tại ' . config('app.name'), // Tiêu đề email
-            // Gửi từ địa chỉ của ứng dụng
+            subject: 'Xác nhận thông tin liên hệ của bạn tại ' . config('app.name'), 
             from: new \Illuminate\Mail\Mailables\Address(config('mail.from.address'), config('mail.from.name')),
         );
     }
@@ -42,9 +36,9 @@ class ContactConfirmationMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.contact-confirmation', // Template Blade cho email xác nhận liên hệ
+            view: 'emails.contact-confirmation', 
             with: [
-                'data' => $this->contactData, // Truyền dữ liệu contactData vào view dưới tên 'data'
+                'data' => $this->contactData, 
             ],
         );
     }
