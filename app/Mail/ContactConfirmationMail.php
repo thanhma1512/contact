@@ -7,12 +7,13 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Mail\Mailables\Address;
 
 class ContactConfirmationMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $contactData; 
+    public $contactData;
 
     public function __construct(array $contactData)
     {
@@ -25,8 +26,8 @@ class ContactConfirmationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Xác nhận thông tin liên hệ của bạn tại ' . config('app.name'), 
-            from: new \Illuminate\Mail\Mailables\Address(config('mail.from.address'), config('mail.from.name')),
+            subject: 'Xác nhận thông tin liên hệ của bạn tại ' . config('app.name'),
+            from: new Address(config('mail.from.address'), config('mail.from.name')),
         );
     }
 
@@ -36,10 +37,15 @@ class ContactConfirmationMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.contact-confirmation', 
+            view: 'emails.contact-confirmation',
             with: [
-                'data' => $this->contactData, 
+                'data' => $this->contactData,
             ],
         );
+    }
+
+     public function attachments(): array
+    {
+        return [];
     }
 }
